@@ -1,41 +1,43 @@
 <template>
   <div class="container">
-    <h5>{{day}}</h5>
+    <h5>{{day}} <img v-if="allChecked" src="../assets/green-check.png" alt="ok" height="20px" /></h5>
 
     <div class="container">
       <div class="row mt-4 p-2 bg-secondary text-white border border-secondary rounded shadow-sm">
-        <div class="font-weight-bold col-md-8 pl-10">Atividade</div>
-        <div class="font-weight-bold col-md-1 pl-10">Inicio</div>
-        <div class="font-weight-bold col-md-1 pl-6">Fim</div>
+        <div class="header text">Atividade</div>
+        <div class="header number">Inicio</div>
+        <div class="header number">Fim</div>
+        <div class="header button"></div>
       </div>
     </div>
 
-    <div class="row mt-1" :key="position" v-for="position in positions">
-      <div class="col-md-12">
+    <div class="min-height">
 
-        <ActivityInput class="mt-1"
+    <div class="row mt-1" :key="position" v-for="position in activities.length">
+      <div class="col-md-12">
+        <ActivityInput class="mt-1 red"
         @activityInput="registerInput($event)"
         @changedEndHour="hoursManager(position, $event);"
-        :activities="activities"
-        :start="hours.start[position-1]"
-        :end="hours.end[position-1]"
-        :position="position"
-        :isDisabled="position !== positions">
+        @activityRemoved="removeActivity(position-1)"
+        @verifyInputs="verifyInputs(position-1)"
+        :inputValues="activities[position-1]"
+        :previousActivity="activities[position-2]"
+        :nextActivity="activities[position]"
+        :activityList="activityList">
         </ActivityInput>
-
       </div>
+    </div>
+
     </div>
 
     <div class="row mt-4 mb-5">
       <div class="col-md-5">
         <div class="input-group input-group-lg">
-          <button type="button" v-bind:disabled="hours.end[hours.end.length-1]==24" @click="addActivity()" class="btn btn-outline-primary mr-2">Adicionar atividade</button>
+          <button type="button" @click="addActivity()" class="btn btn-outline-primary mr-2">Adicionar atividade</button>
         </div>
       </div>
-      <button type="button" @click="removeActivity()" id="removeButton" class="btn btn-outline-danger">Remover última atividade</button>
+      <button class="btn btn-outline-primary" @click="copyPreviousDay()">Repetir dia anterior</button>
     </div>
-
-    <p v-if="alert" class="alert alert-warning">{{alert}}</p>
   </div>
 </template>
 
@@ -46,107 +48,178 @@ import { getAll as getActivities } from '../services/activity'
 
 export default {
   name: 'DaySchedule',
-  props: ['day'],
+  props:{
+    day:{
+      required: true,
+      type: String
+    },
+    activities:{
+      required: true,
+      type: Array
+    },
+    dayIndex:{
+      required: true,
+      type: Number
+    },
+    hasPreviousWeek:{
+      required: true,
+      type: Boolean
+    }
+    //['day'],//Make activities a list passed as prop
+    
+  }, 
+  
   components: {
     ActivityInput,
   },
+
   data: () => {
     return {
-      activities: [],
-      dayActivities: {},
-      activitiesFromInputs: [],
-      hours: { start: [0], end: [1]},
-      positions: 1,
-      alert: ""
+      activityList: [],
+      allChecked: false
     }
   },
+
   mounted() {
     this.getAllActivities()
+    console.log(this.activities)
+    if(this.hasPreviousWeek){
+      console.log("Há semana anterior")
+      this.allChecked = true
+    }
+    // this.checkRepeatedDay()
   },
+
   methods: {
+
     getAllActivities: function () {
+  
       getActivities()
       .then(res => {
-        this.activities = res.data
+        this.activityList = res.data
       })
       .catch(err => {
         console.error('DaySchedule, getActivies() ', err)
       })
     },
-    hoursManager: function (position, endHour) {
-      if (!position && !endHour) {
-        const lastHour = _.last(this.hours.end)
-        this.hours.start.push(lastHour)
-
-        if(lastHour < 24) {
-          this.hours.end.push(lastHour + 1)
-        } else {
-          this.hours.end.push(24)
+    
+    addActivity(){
+      let lastActivityIndex = this.activities.length - 1
+        if(this.activities[lastActivityIndex].end >= 24){
+          alert("Não é possível adicionar atividades após as 24h, vá para o próximo dia")
+          return
         }
+        let lastActivity=this.activities[lastActivityIndex]
+        let data = {
+          index: this.dayIndex,
+          newActivityStart: lastActivity.end,
+          newActivityEnd: Number(lastActivity.end) + 1,
+        }
+        this.$emit("activityAdded", data)
+        this.verifyInputs(lastActivityIndex + 1)
+    },
 
-        this.verifyHour()
+    removeActivity(index){
+      if(this.activities.length == 1){
+        alert("Os dias precisam ter pelo menos uma atividade!")
+        return        
+      }
+      let data = {
+        day: this.dayIndex,
+        position: index
+      }
+      this.$emit("activityRemoved", data)
+      this.verifyInputs(index - 1)
+    },
+
+    copyPreviousDay(){
+      this.$emit("copyPreviousDay", this.dayIndex)
+      this.checkDayCompletition()
+    },
+
+    verifyAllInputs(){
+      let length = this.activities.length
+      for(let i = 0; i < length; i++){
+        this.verifyInputs(i)
+      }
+    },
+
+    verifyInputs(index){
+      let currentActivity = this.activities[index]
+      let nextActivity = this.activities[index + 1]
+      let previousActivity = this.activities[index - 1]
+      if(currentActivity.id === 0){
         return
       }
-
-      this.hours.end[position-1] = endHour
-
-      for (let i = position + 1; i < this.hours.start.length; i++) {
-        if(this.hours.start[i]) {
-          this.hours.start[i] = this.hours.end[i-1]
+      //verify with previous activity
+      if(previousActivity){
+        if(currentActivity.start != previousActivity.end){
+          console.log(currentActivity)
+          previousActivity.valid = false
+        } else {
+          previousActivity.valid = true
         }
       }
-
-      let lastActivity = _.last(this.dayActivities[this.day])      
-      if (lastActivity && lastActivity.end && lastActivity.position === this.positions-1) {
-        lastActivity.end = _.last(this.hours.end)
+      //verify with next activity
+      if(nextActivity){
+        if (currentActivity.end != nextActivity.start){
+          nextActivity.valid = false
+        } else {
+          nextActivity.valid = true
+        }
       }
-
-      this.$forceUpdate()
-      this.verifyHour()
+      this.checkDayCompletition()
     },
-    addActivity: function () {
-      this.alert = null
-      // double negation to return a boolean
-      const hasActivityOnLastPosition = !!(this.dayActivities[this.day] && this.dayActivities[this.day][this.positions-1])
-      const hasHourOnLastPosition = !!this.hours.end[this.positions-1]
 
-      if (this.positions < 23 && hasHourOnLastPosition && hasActivityOnLastPosition) {
-        this.positions++
-        this.hoursManager()
+    checkDayCompletition(){
+      let lastActivityIndex = this.activities.length - 1
+      if (this.activities[0].start == 0 && this.activities[lastActivityIndex].end == 24){
+        for (let i = 0; i < lastActivityIndex; i++){
+          if (!this.activities[i].valid){
+            this.allChecked = false
+            this.$emit("invalidDay", this.dayIndex)
+            return
+          }
+        }
+        this.allChecked = true;
+        this.$emit("validDay", this.dayIndex)
       } else {
-        this.alert = "Por favor, preencha a última atividade."
-      }
-
-      this.verifyHour()
-    },
-    removeActivity: function () {
-      if(this.positions > 1) {
-        this.hours.start.pop()
-        this.hours.end.pop()
-        this.positions--
-      }
-    },
-    registerInput: function (event) {
-      event.position = this.positions - 1
-      this.activitiesFromInputs.push(event)
-      this.dayActivities[this.day] = this.activitiesFromInputs
-
-      this.verifyHour()
-    },
-    verifyHour: function () {
-      if(_.last(this.hours.end) === 24) {
-        this.$emit("totalDay", _.last(this.hours.end))
-
-        if (this.dayActivities[this.day] && this.dayActivities[this.day][this.positions-1]) {
-          this.$emit("dayActivities", this.dayActivities)
-        }
+        this.allChecked = false;
+        this.$emit("invalidDay", this.dayIndex)
       }
     }
+
   }
 }
 </script>
 
 <style scoped>
+
+.header{
+  font-size: 20px;
+  text-align: center;
+}
+
+.text{
+  width:750px;
+}
+
+.number{
+  margin-left: 10px;
+  width: 100px;
+}
+
+.button{
+  width: 80px;
+  text-align: right;
+
+}
+
+.min-height{
+  height: 250px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
 .pr-6 {
   padding-right: 6rem;
 }
@@ -159,7 +232,7 @@ export default {
 .pl-6 {
   padding-left: 6.5rem;
 }
-#removeButton{
+#remove-button{
   vertical-align:middle;
   margin-left: 425px;
 }
