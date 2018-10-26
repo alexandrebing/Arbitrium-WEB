@@ -158,15 +158,24 @@ export default {
   overflow-x: hidden;
 }
 .remove{
+  border-color: #dc3545;
   height: 50px;
   width: 50px;
   margin: 0 auto;
   margin-left: 20px;
-  background-color: rgb(184, 33, 33);
-  color: white;   
+  background-color: white;
+  color:  #dc3545;
   text-align: center;
   cursor: pointer;
   border-radius: 5px;
+  transition: all .3s ease;
+}
+
+.remove:hover{
+  background-color: #dc3545;
+  color: white;
+  transition: all .3s ease;
+
 }
 
 .number-input{

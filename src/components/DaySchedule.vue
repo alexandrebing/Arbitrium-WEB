@@ -11,7 +11,7 @@
       </div>
     </div>
 
-    <div class="min-height">
+    <div class="min-height" :id="divId">
 
     <div class="row mt-1" :key="position" v-for="position in activities.length">
       <div class="col-md-12">
@@ -31,12 +31,15 @@
     </div>
 
     <div class="row mt-4 mb-5">
-      <div class="col-md-5">
+      <div class="col-sm-2"></div>
+      <div class="col-sm-8">
+        <button class="btn btn-outline-primary mr-2" @click="copyPreviousDay()">Repetir dia anterior</button>
+      </div>
+      <div class="col-sm-2">
         <div class="input-group input-group-lg">
           <button type="button" @click="addActivity()" class="btn btn-outline-primary mr-2">Adicionar atividade</button>
         </div>
       </div>
-      <button class="btn btn-outline-primary" @click="copyPreviousDay()">Repetir dia anterior</button>
     </div>
   </div>
 </template>
@@ -80,6 +83,14 @@ export default {
     }
   },
 
+  computed:{
+
+    divId(){
+      return "scroll-box-"+this.dayIndex
+    } 
+
+  },
+
   mounted() {
     this.getAllActivities()
     console.log(this.activities)
@@ -117,6 +128,16 @@ export default {
         }
         this.$emit("activityAdded", data)
         this.verifyInputs(lastActivityIndex + 1)
+        setTimeout(this.pageScroll, 5)
+    },
+
+    pageScroll() {
+      var elem = document.getElementById(this.divId)
+      console.log("scroll")
+      elem.scrollTop = elem.scrollHeight
+      // window.setInterval(function() {
+      //   elem.scrollTop = elem.scrollHeight;
+      // }, 0);
     },
 
     removeActivity(index){
@@ -135,6 +156,7 @@ export default {
     copyPreviousDay(){
       this.$emit("copyPreviousDay", this.dayIndex)
       this.checkDayCompletition()
+      setTimeout(this.pageScroll, 5)
     },
 
     verifyAllInputs(){
