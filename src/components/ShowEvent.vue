@@ -9,8 +9,8 @@
           </div>
         </div>
         <div class="answers-div">
-          <button class="btn btn-outline-primary btn-ans" @click="postAnswear('F', event.id)"><span>{{event.op_family}}</span></button>
-          <button class="btn btn-outline-primary btn-ans" @click="postAnswear('W', event.id)"><span>{{event.op_work}} </span></button>
+          <button class="btn btn-outline-primary btn-ans" @click="postAnswear(ansOne, event.id)"><span>{{optionOne}}</span></button>
+          <button class="btn btn-outline-primary btn-ans" @click="postAnswear(ansTwo, event.id)"><span>{{optionTwo}} </span></button>
         </div>
       </div>
     </div>
@@ -27,12 +27,21 @@
 
     data(){
       return{
-        appearTime: this.getDate()
+        appearTime: this.getDate(),
+        optionOne: String,
+        optionTwo: String,
+        ansOne: String,
+        ansTwo: String
+
       }
     },
 
     components: {
       WeekSimulation,
+    },
+
+    mounted(){
+      this.randomizeAnswers()
     },
 
     methods: {
@@ -80,6 +89,21 @@
         if (time < 10)
           return "0" + time
         return time
+      },
+
+      randomizeAnswers(){
+        let r = Math.floor((Math.random() * 2))
+        if(r == 0){
+          this.optionOne = this.event.op_family
+          this.optionTwo = this.event.op_work
+          this.ansOne = "F"
+          this.ansTwo = "W"
+        } else {
+          this.optionOne = this.event.op_work
+          this.optionTwo = this.event.op_family
+          this.ansOne = "W"
+          this.ansTwo = "F"
+        }
       }
 
     }

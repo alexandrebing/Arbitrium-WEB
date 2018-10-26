@@ -102,7 +102,6 @@ export default {
         this.events = res.data
       }.bind(this))
       .catch( function (err){
-        console.error('WeekSimulation, getEvents() ', err)
         this.events = [{id: 1, description: "Seu chefe o convida para um happy hour com os diretores no final do expediente.  Ao mesmo tempo, você recebe uma mensagem de seu cônjuge lembrando da apresentação no colégio do seu filho. O que você faz?", op_work: "Ir para o Happy Hour", op_family:"Ir à Apresentação", min_hour: 9, max_hour: 18}, 
                        {id: 2, description: "Você tem muito trabalho a fazer, porém o tempo com sua família anda escasso. No final do expediente você escolheria jantar com sua família ou fazer hora extra?", op_work: "Fazer hora extra", op_family:"Jantar com a Família"},
                        {id: 3, description: "Você acorda de manhã e seu filho não está se sentindo bem. Ao verificar sua agenda, lembra que tem uma reunião com um novo cliente em uma hora. Você leva seu filho ao médico ou vai para a reunião?", op_work: "Leva o filho ao médico", op_family:"Ir para a reunião", min_hour: 9, max_hour: 18}, 
@@ -124,7 +123,6 @@ export default {
         event_id: element.id,
         interview_id: this.interviewId,
       }
-      console.log(data)
       create(data)
       .then(res => {
         if (res.status === 200){
@@ -180,7 +178,6 @@ export default {
           break
         }
       }
-      console.log(this.firstEvent.day + " - " + this.firstEvent.hour + " ; " + this.secondEvent.day + " - " + this.secondEvent.hour + " ; " + this.thirdEvent.day + " - " + this.thirdEvent.hour)
     },
 
     randomizeInterval(event){//gets two new parameters from an event (min_hour and max_hour) and returns a value between them
