@@ -88,11 +88,7 @@ export default {
   },
 
   mounted() {
-<<<<<<< e34426f103f248d9c0904466cd18b100dd57e700
-    this.getAllActivities();
-=======
     this.getAllActivities()
->>>>>>> semanas de testes rápidos
     if(this.hasPreviousWeek){
       this.allChecked = true
     }

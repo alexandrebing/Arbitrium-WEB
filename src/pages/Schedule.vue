@@ -39,6 +39,17 @@
         <button type="button" @click="adaptAndCreateWeek()" class="btn btn-primary btn-week" >Iniciar simulação</button>
       </div>
     </div>
+<<<<<<< 5422f743dbd88fbdff6ac65c1a9723bb3023187e
+=======
+
+<!-- NEW MODAL FOR WARNING BOXES
+    <my-modal :boxText=modalTxt
+    :rightBtn=rightBtnModal
+    :leftBtn=leftBtnModal>
+    <p>colocar uma lista aqui</p>
+    </my-modal>
+-->
+>>>>>>> novo modal adicionado
   </div>
 </template>
 
@@ -48,6 +59,7 @@ import { Carousel, Slide } from 'vue-carousel'
 import { getAll as getActivities } from '../services/activity'
 import { create } from '../services/week'
 import DaySchedule from '../components/DaySchedule'
+import CustomModal from '../components/CustomModal'
 import _ from "underscore"
 
 export default {
@@ -55,7 +67,8 @@ export default {
   components: {
     DaySchedule,
     Carousel,
-    Slide
+    Slide,
+    'my-modal': CustomModal
   },
   
   data: () => {
@@ -127,6 +140,9 @@ export default {
             ],
 
       hasPreviousWeek: false,
+      modalTxt: "Deseja desistir da sessão?",
+      leftBtnModal: "Não",
+      rightBtnModal: "Sim"
     }
   },
 
