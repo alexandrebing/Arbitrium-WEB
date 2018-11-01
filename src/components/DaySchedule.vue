@@ -43,6 +43,8 @@
 import _ from "underscore"
 import ActivityInput from '../components/ActivityInput'
 import { getAll as getActivities } from '../services/activity'
+import CustomModal from '../components/CustomModal'
+import {bus} from '../main.js'
 
 export default {
 
@@ -70,12 +72,13 @@ export default {
   
   components: {
     ActivityInput,
+    'custom-modal': CustomModal
   },
 
   data: () => {
     return {
       activityList: [],
-      allChecked: false
+      allChecked: false,
     }
   },
 
@@ -92,6 +95,14 @@ export default {
     if(this.hasPreviousWeek){
       this.allChecked = true
     }
+    // this.checkRepeatedDay()
+    try{
+      bus.$on('checkDayCompletition', this.checkDayCompletition)
+      bus.$on('checkDayCompletition', this.delayedScroll)
+    } catch(err){
+      console.log('no need for checking')
+    }
+   //bus.$on('checkDayCompletition', this.pageScroll)
   },
 
   methods: {
@@ -128,6 +139,10 @@ export default {
       elem.scrollTop = elem.scrollHeight;
     },
 
+    delayedScroll(){
+      setTimeout(this.pageScroll,10)
+    },
+
     removeActivity(index){
       if(this.activities.length == 1){
         alert("Os dias precisam ter pelo menos uma atividade!");
@@ -142,9 +157,7 @@ export default {
     },
 
     copyPreviousDay(){
-      this.$emit("copyPreviousDay", this.dayIndex);
-      this.checkDayCompletition();
-      setTimeout(this.pageScroll, 5);
+      this.$emit("copyPreviousDay", this.dayIndex)
     },
 
     verifyAllInputs(){

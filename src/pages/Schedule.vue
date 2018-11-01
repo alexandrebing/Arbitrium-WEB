@@ -11,9 +11,7 @@
         <p v-if="alert" class="alert alert-warning">{{alert}}</p>
       </div>
       <div class="col-md-1">
-        <router-link to="/fim">
-            <button class="btn btn-outline-danger">DESISTIR</button>
-        </router-link>
+        <button class="btn btn-outline-danger" @click="confirmExit()">DESISTIR</button>
       </div>
     </div>
     <!-- SCHEDULE -->
@@ -38,6 +36,19 @@
         <button type="button" @click="adaptAndCreateWeek()" class="btn btn-primary btn-week" >Iniciar simulação</button>
       </div>
     </div>
+
+    <custom-modal
+    v-if="showModal"
+    :boxText="textMessage"
+    :rightButton="rightButton"
+    :leftButton="leftButton"
+    :rightClick="rightButtonFunction"
+    :leftClick="leftButtonFunction"
+    @hideModal="hideModal()"
+    @copyActivities="copyAllActivities($event)"
+    >
+    </custom-modal>
+
   </div>
 </template>
 
@@ -48,19 +59,28 @@ import { getAll as getActivities } from '../services/activity'
 import { create } from '../services/week'
 import DaySchedule from '../components/DaySchedule'
 import _ from "underscore"
+import CustomModal from '../components/CustomModal'
+import {bus} from '../main.js'
 
 export default {
   name: 'Schedule',
   components: {
     DaySchedule,
     Carousel,
-    Slide
+    Slide,
+    'custom-modal': CustomModal
   },
   
   data: () => {
     return {
       isSunday: false,
       days: ['Segunda-Feira','Terça-Feira','Quarta-Feira','Quinta-Feira','Sexta-Feira','Sábado','Domingo'],
+      showModal: false,
+      textMessage:"Mensagem de teste",
+      rightButton: "Ok",
+      leftButton: "Cancelar",
+      rightButtonFunction: Function,
+      leftButtonFunction: Function,
       validDays: [false, false, false, false, false, false, false],
       validWeek: false,
       activitiesByDay: new Array(7),
@@ -76,6 +96,7 @@ export default {
       countHoursInDay: {},
       canStart: false,
       alert: "",
+      parentCheck: true,
       activities:[[{
                 activity: "Atividade",
                 id: 0,
@@ -249,13 +270,26 @@ export default {
     //allows user to copy his previous day, so he can adjust it faster
     copyPreviousDay(dayIndex){
       if(this.activities[dayIndex-1]){
-        if(confirm("Tem certeza que deseja copiar a agenda de " + this.days[dayIndex-1])){
-          this.copyAllActivities(dayIndex, dayIndex - 1)          
+        this.textMessage = "Você gostaria de copiar a sua agenda de " + this.days[dayIndex] + "?"
+        this.rightButton = "Sim"
+        this.leftButton = "Não"
+        this.rightButtonFunction =  function(){
+          this.$emit('hideModal')
+          this.$emit('copyActivities',dayIndex)
+          bus.$emit('checkDayCompletition')
         }
+        this.leftButtonFunction = function(){
+          this.$emit('hideModal')
+        }
+        this.showModal = true
+        // if(confirm("Tem certeza que deseja copiar a agenda de " + this.days[dayIndex-1])){
+        //   this.copyAllActivities(dayIndex, dayIndex - 1)          
+        // }
       }
     },
 
-    copyAllActivities(currentDayIndex, previousDayIndex){
+    copyAllActivities(currentDayIndex){
+      let previousDayIndex = currentDayIndex -1
       let activitiesLength = this.activities[currentDayIndex].length
       this.activities[currentDayIndex].splice(0,activitiesLength)  
       for(let i = 0; i < this.activities[previousDayIndex].length; i++){
@@ -268,6 +302,7 @@ export default {
         }    
         this.addActivity(activityToAdd)
       }
+      this.parentCheck = !this.parentCheck
      },
 
     validDay(index){
@@ -290,6 +325,27 @@ export default {
     this.validWeek = true
 
     },
+
+    testButton(){
+      alert("button clicked")
+    },
+    hideModal(){
+      this.showModal = false
+    },
+
+    confirmExit(){
+      this.textMessage = "Tem certeza que deseja sair da sessão?"
+      this.rightButton = "Sim"
+      this.leftButton = "Não"
+      this.rightButtonFunction =  function(){
+        this.$emit('hideModal')
+        this.$router.push('/fim')
+      }
+      this.leftButtonFunction = function(){
+        this.$emit('hideModal')
+      }
+      this.showModal = true
+    }
   }
 }
 </script>

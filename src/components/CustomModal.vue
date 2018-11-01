@@ -11,8 +11,8 @@
         
         </slot>    
         <div class="answers-div">
-          <button class="btn btn-outline-primary btn-ans" @click="postAnswear(ansOne, event.id)"><span>{{leftBtn}}</span></button>
-          <button class="btn btn-outline-primary btn-ans" @click="postAnswear(ansTwo, event.id)"><span>{{rightBtn}} </span></button>
+          <button class="btn btn-outline-primary btn-left" @click="leftClick()"><span>{{leftButton}}</span></button>
+          <button class="btn btn-outline-primary btn-right" @click="rightClick()"><span>{{rightButton}} </span></button>
         </div>
       </div>
     </div>
@@ -22,16 +22,11 @@
 <script>
 
   export default {
-    props: ['boxText','leftBtn','rightBtn'],
+    props: ['boxText','leftButton','rightButton', 'leftClick', 'rightClick'],
 
     mounted(){
       
     },
-
-    methods: {
-      
-
-    }
 }
 
 </script>
@@ -68,11 +63,16 @@
     margin-top: 60px
   }
 
-  .btn-ans{
+  .btn-left{
     margin-top: 10px;
-    width: 100%;
+    width: 40%;
     height: 50px;
-    vertical-align: middle  
+  }
+
+  .btn-right{
+    margin-top: 10px;
+    width: 40%;
+    height: 50px;  
   }
 
   .event-txt{
