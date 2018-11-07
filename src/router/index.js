@@ -5,6 +5,7 @@ import Schedule from '@/pages/Schedule'
 import Result from '@/pages/Result'
 import WeekSimulation from '@/pages/WeekSimulation'
 import GameOver from '@/pages/GameOver'
+import ConsultWeeks from '@/pages/ConsultWeeks'
 
 Vue.use(Router)
 
@@ -40,6 +41,11 @@ export default new Router({
       path: '/fim',
       name: 'GameOver',
       component: GameOver
+    },
+    {
+      path: '/consultas',
+      name: 'ConsultWeeks',
+      component: ConsultWeeks
     },
     {
       path:'/relatorio',

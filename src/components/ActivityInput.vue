@@ -27,15 +27,17 @@
            :min="minValue"
            :max="checkMax"
            v-model.lazy="inputValues.end"
-           @change="checkValidity()"
-           >
+           @change="checkValidity()">
     <button class="remove" @click="removeActivity()">X</button>
   </div>
 </template>
 
 <script>
+
 export default {
+
   name: 'ActivityInput',
+  
   props: {
     inputValues:{
       required: true,
@@ -45,16 +47,15 @@ export default {
       required: false,
       type: Object
     },
-
     nextActivity:{
       required: false,
       type: Object
     },
     activityList:{
       required: true,
-    }
-    
+    }    
   }, 
+
   data: function () {
     return {
       activitySelected: "",
@@ -63,84 +64,86 @@ export default {
       endValue: this.end
      }
   },
+
   computed:{
 
     checkMin(){
       if(this.previousActivity){
-        return this.previousActivity.end
+        return this.previousActivity.end;
       }
-      return 0
+      return 0;
     },
 
     checkMax(){
       if(this.nextActivity){
-        return this.nextActivity.start
+        return this.nextActivity.start;
       }
-        return 24
+        return 24;
     },
 
     maxValue(){
-      return this.inputValues.end -1
+      return this.inputValues.end -1;
     },
 
     minValue(){
-      return Number(this.inputValues.start) + 1
+      return Number(this.inputValues.start) + 1;
     },
 
     isValid(){
       if (this.inputValues.valid){
-        return ""
+        return "";
       }
-      return "danger"
+      return "danger";
     }
     
   },
 
   methods: {
+
     setActivity: function (activity) {
-      this.inputValues.activity = activity.description
-      this.inputValues.id = activity.id
-      this.$emit("verifyInputs")
+      this.inputValues.activity = activity.description;
+      this.inputValues.id = activity.id;
+      this.$emit("verifyInputs");
     },
 
     checkPrevious(){
       if(this.previousActivity){
-        this.activitySelected = this.previousActivity
+        this.activitySelected = this.previousActivity;
       }
       else{
-        this.activitySelected = "Atividade"
+        this.activitySelected = "Atividade";
       }
     },
 
     removeActivity(){
-       this.$emit("activityRemoved")
-       this.checkValidity()
+       this.$emit("activityRemoved");
+       this.checkValidity();
     },
 
     checkValidity(){
-      let equalPrevious = true
-      let equalNext = true
+      let equalPrevious = true;
+      let equalNext = true;
       if(this.previousActivity){
-        equalPrevious = (this.inputValues.start == this.previousActivity.end)
+        equalPrevious = (this.inputValues.start == this.previousActivity.end);
       } 
       if(this.nextActivity){
-        equalNext = this.inputValues.end == this.nextActivity.start
+        equalNext = this.inputValues.end == this.nextActivity.start;
       }
 
       if(equalPrevious && equalNext){
-        this.inputValues.valid = true
+        this.inputValues.valid = true;
       } else {
-        this.inputValues.valid = false
+        this.inputValues.valid = false;
       }
-      this.$emit("verifyInputs")
+      this.$emit("verifyInputs");
     }
 
-  }
-  
+  }  
 }
 </script>
 
 <style scoped>
+
 .input-prepend-size {
   width: 785px;
   background-color: white;
@@ -149,14 +152,17 @@ export default {
 .input-prepend-size:hover {
   background-color: #6c757d;
 }
+
 .dropdown-size {
   width: 785px;
 }
+
 .scrollable-dropdown {
   height: auto;
   max-height: 200px;
   overflow-x: hidden;
 }
+
 .remove{
   border-color: #dc3545;
   height: 50px;
@@ -175,7 +181,6 @@ export default {
   background-color: #dc3545;
   color: white;
   transition: all .3s ease;
-
 }
 
 .number-input{
@@ -192,4 +197,5 @@ export default {
   padding: 2px;
   border-radius: 5px;
 }
+
 </style>
