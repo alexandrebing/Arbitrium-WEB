@@ -1,6 +1,5 @@
 <template>
   <div class="container">
-    
     <!-- TITLE -->
     <div class="row">
       <div class="col-md-1">
@@ -17,11 +16,9 @@
         </router-link>
       </div>
     </div>
-
     <!-- SCHEDULE -->
     <div class="row align-items-center mt-5 mb-1">
       <carousel class="col pt-2 pb-2" :per-page="1" :mouse-drag="true" :navigation-enabled="true">
-
         <slide class="carousel-wrapper" :key="day" v-for="day in days.length">
           <DaySchedule 
           :activities="activities[day-1]"
@@ -36,13 +33,11 @@
         </slide>
       </carousel>
     </div>
-
     <div v-if="validWeek" class="col-md-2 ml-27">
       <div class="input-group input-group-lg">
         <button type="button" @click="adaptAndCreateWeek()" class="btn btn-primary btn-week" >Iniciar simulação</button>
       </div>
     </div>
-
   </div>
 </template>
 
@@ -61,6 +56,7 @@ export default {
     Carousel,
     Slide
   },
+  
   data: () => {
     return {
       isSunday: false,

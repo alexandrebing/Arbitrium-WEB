@@ -1,7 +1,6 @@
 <template>
   <div class="container">
     <h5>{{day}} <img v-if="allChecked" src="../assets/green-check.png" alt="ok" height="20px" /></h5>
-
     <div class="container">
       <div class="row mt-4 p-2 bg-secondary text-white border border-secondary rounded shadow-sm">
         <div class="header text">Atividade</div>
@@ -10,9 +9,7 @@
         <div class="header button"></div>
       </div>
     </div>
-
     <div class="min-height" :id="divId">
-
     <div class="row mt-1" :key="position" v-for="position in activities.length">
       <div class="col-md-12">
         <ActivityInput class="mt-1 red"
@@ -27,9 +24,7 @@
         </ActivityInput>
       </div>
     </div>
-
     </div>
-
     <div class="row mt-4 mb-5">
       <div class="col-sm-2"></div>
       <div class="col-sm-8">
@@ -50,7 +45,9 @@ import ActivityInput from '../components/ActivityInput'
 import { getAll as getActivities } from '../services/activity'
 
 export default {
+
   name: 'DaySchedule',
+
   props:{
     day:{
       required: true,
@@ -68,8 +65,7 @@ export default {
       required: true,
       type: Boolean
     }
-    //['day'],//Make activities a list passed as prop
-    
+    //['day'],//Make activities a list passed as prop 
   }, 
   
   components: {
@@ -86,128 +82,119 @@ export default {
   computed:{
 
     divId(){
-      return "scroll-box-"+this.dayIndex
+      return "scroll-box-"+this.dayIndex;
     } 
 
   },
 
   mounted() {
-    this.getAllActivities()
-    console.log(this.activities)
+    this.getAllActivities();
     if(this.hasPreviousWeek){
-      console.log("Há semana anterior")
       this.allChecked = true
     }
-    // this.checkRepeatedDay()
   },
 
   methods: {
 
     getAllActivities: function () {
-  
       getActivities()
       .then(res => {
-        this.activityList = res.data
+        this.activityList = res.data;
       })
       .catch(err => {
-        console.error('DaySchedule, getActivies() ', err)
+        console.error('DaySchedule, getActivies() ', err);
       })
     },
     
     addActivity(){
-      let lastActivityIndex = this.activities.length - 1
+      let lastActivityIndex = this.activities.length - 1;
         if(this.activities[lastActivityIndex].end >= 24){
-          alert("Não é possível adicionar atividades após as 24h, vá para o próximo dia")
-          return
+          alert("Não é possível adicionar atividades após as 24h, vá para o próximo dia");
+          return;
         }
-        let lastActivity=this.activities[lastActivityIndex]
+        let lastActivity=this.activities[lastActivityIndex];
         let data = {
           index: this.dayIndex,
           newActivityStart: lastActivity.end,
           newActivityEnd: Number(lastActivity.end) + 1,
-        }
-        this.$emit("activityAdded", data)
-        this.verifyInputs(lastActivityIndex + 1)
-        setTimeout(this.pageScroll, 5)
+        };
+        this.$emit("activityAdded", data);
+        this.verifyInputs(lastActivityIndex + 1);
+        setTimeout(this.pageScroll, 5);
     },
 
     pageScroll() {
-      var elem = document.getElementById(this.divId)
-      console.log("scroll")
-      elem.scrollTop = elem.scrollHeight
-      // window.setInterval(function() {
-      //   elem.scrollTop = elem.scrollHeight;
-      // }, 0);
+      var elem = document.getElementById(this.divId);
+      elem.scrollTop = elem.scrollHeight;
     },
 
     removeActivity(index){
       if(this.activities.length == 1){
-        alert("Os dias precisam ter pelo menos uma atividade!")
-        return        
+        alert("Os dias precisam ter pelo menos uma atividade!");
+        return;
       }
       let data = {
         day: this.dayIndex,
         position: index
-      }
-      this.$emit("activityRemoved", data)
-      this.verifyInputs(index - 1)
+      };
+      this.$emit("activityRemoved", data);
+      this.verifyInputs(index - 1);
     },
 
     copyPreviousDay(){
-      this.$emit("copyPreviousDay", this.dayIndex)
-      this.checkDayCompletition()
-      setTimeout(this.pageScroll, 5)
+      this.$emit("copyPreviousDay", this.dayIndex);
+      this.checkDayCompletition();
+      setTimeout(this.pageScroll, 5);
     },
 
     verifyAllInputs(){
-      let length = this.activities.length
+      let length = this.activities.length;
       for(let i = 0; i < length; i++){
-        this.verifyInputs(i)
+        this.verifyInputs(i);
       }
     },
 
     verifyInputs(index){
-      let currentActivity = this.activities[index]
-      let nextActivity = this.activities[index + 1]
-      let previousActivity = this.activities[index - 1]
+      let currentActivity = this.activities[index];
+      let nextActivity = this.activities[index + 1];
+      let previousActivity = this.activities[index - 1];
       if(currentActivity.id === 0){
-        return
+        return;
       }
       //verify with previous activity
       if(previousActivity){
         if(currentActivity.start != previousActivity.end){
-          console.log(currentActivity)
-          previousActivity.valid = false
+          previousActivity.valid = false;
         } else {
-          previousActivity.valid = true
+          previousActivity.valid = true;
         }
       }
       //verify with next activity
       if(nextActivity){
         if (currentActivity.end != nextActivity.start){
-          nextActivity.valid = false
+          nextActivity.valid = false;
         } else {
-          nextActivity.valid = true
+          nextActivity.valid = true;
         }
       }
-      this.checkDayCompletition()
+      this.checkDayCompletition();
     },
 
     checkDayCompletition(){
-      let lastActivityIndex = this.activities.length - 1
+      let lastActivityIndex = this.activities.length - 1;
       if (this.activities[0].start == 0 && this.activities[lastActivityIndex].end == 24){
         for (let i = 0; i < lastActivityIndex; i++){
           if (!this.activities[i].valid){
-            this.allChecked = false
-            this.$emit("invalidDay", this.dayIndex)
-            return
+            this.allChecked = false;
+            this.$emit("invalidDay", this.dayIndex);
+            return;
           }
         }
         this.allChecked = true;
-        this.$emit("validDay", this.dayIndex)
+        this.$emit("validDay", this.dayIndex);
       } else {
         this.allChecked = false;
-        this.$emit("invalidDay", this.dayIndex)
+        this.$emit("invalidDay", this.dayIndex);
       }
     }
 
@@ -234,7 +221,6 @@ export default {
 .button{
   width: 80px;
   text-align: right;
-
 }
 
 .min-height{
@@ -242,20 +228,26 @@ export default {
   overflow-y: auto;
   overflow-x: hidden;
 }
+
 .pr-6 {
   padding-right: 6rem;
 }
+
 .pr-7 {
   padding-right: 6.8rem;
 }
+
 .pl-10 {
   padding-left: 10rem;
 }
+
 .pl-6 {
   padding-left: 6.5rem;
 }
+
 #remove-button{
   vertical-align:middle;
   margin-left: 425px;
 }
+
 </style>
