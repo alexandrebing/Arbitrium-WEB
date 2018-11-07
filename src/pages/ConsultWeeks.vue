@@ -1,6 +1,5 @@
 <template>
   <div class="container" v-if="access">
-
   	<div class="row">
     	<div class="col-md-2"></div>
     	<div class="col-md-8">
@@ -18,7 +17,6 @@
       	<p class="clickable" @click="closeWeek">Limpar consulta</p>
     	</div>
   	</div>
-
     <div class="table" v-if="showResults">
     	<table class="centralized">
       	<tr>
@@ -28,8 +26,7 @@
         	<th>{{hour-1}}h</th><th v-for="day in days" :key="day">{{activities[day-1][hour-1].description}}</th>
       	</tr>
     	</table>
-  	</div>
-		
+  	</div>		
 	</div>
 </template>
 
