@@ -6,6 +6,7 @@ import Result from '@/pages/Result'
 import WeekSimulation from '@/pages/WeekSimulation'
 import GameOver from '@/pages/GameOver'
 import ConsultWeeks from '@/pages/ConsultWeeks'
+import ResultCalc from '@/pages/ResultCalc'
 
 Vue.use(Router)
 
@@ -46,6 +47,11 @@ export default new Router({
       path: '/consultas',
       name: 'ConsultWeeks',
       component: ConsultWeeks
+    },
+    {
+      path:'/calculo_resultado',
+      name: 'ResultCalc',
+      component: ResultCalc
     },
     {
       path:'/relatorio',
