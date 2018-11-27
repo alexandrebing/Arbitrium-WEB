@@ -8,7 +8,8 @@
       <div class="col-md-10">
         <h5>Semana {{week}}</h5>
         <h5>Insira suas atividades diárias</h5>
-        <p v-if="alert" class="alert alert-warning">{{alert}}</p>
+        <button @click="weekFactory">semana teste</button>
+        <button @click="manoWeek">semana Mano</button>
       </div>
       <div class="col-md-1">
         <router-link to="/fim">
@@ -133,6 +134,9 @@ export default {
             ],
 
       hasPreviousWeek: false,
+      modalTxt: "Deseja desistir da sessão?",
+      leftBtnModal: "Não",
+      rightBtnModal: "Sim"
     }
   },
 
@@ -298,6 +302,831 @@ export default {
     this.validWeek = true
 
     },
+
+    weekFactory(){
+      if(confirm("Inserir semana teste?")){
+        this.createWeekFactory()
+        for(let i = 0; i < 7; i++){
+          this.validDay[i] = true
+        }
+        this.validWeek = true
+      }
+    },
+
+    createWeekFactory(){
+      this.activities = [[{
+              activity: "Dormir",
+              id: 1,
+              start: 0,
+              end: 7,
+              valid: true
+            },{
+              activity: "Comer",
+              id: 3,
+              start: 7,
+              end: 8,
+              valid: true
+            },{
+              activity: "Trabalho",
+              id: 2,
+              start: 8,
+              end: 12,
+              valid: true
+            },{
+              activity: "Comer",
+              id: 3,
+              start: 12,
+              end: 13,
+              valid: true
+            },
+            {
+              activity: "Trabalho",
+              id: 2,
+              start: 13,
+              end: 18,
+              valid: true
+            },
+            {
+              activity: "Cuidados Pessoais",
+              id: 15,
+              start: 18,
+              end: 19,
+              valid: true
+            },
+            {
+              activity: "Comer",
+              id: 3,
+              start: 19,
+              end: 20,
+              valid: true
+            },
+            {
+              activity: "Lazer com Cônjuge e Filho",
+              id: 6,
+              start: 20,
+              end: 24,
+              valid: true
+            },],[{
+              activity: "Dormir",
+              id: 1,
+              start: 0,
+              end: 6,
+              valid: true
+            },{
+              activity: "Comer",
+              id: 3,
+              start: 6,
+              end: 7,
+              valid: true
+            },{
+              activity: "Trabalho",
+              id: 2,
+              start: 7,
+              end: 12,
+              valid: true
+            },{
+              activity: "Comer",
+              id: 3,
+              start: 12,
+              end: 13,
+              valid: true
+            },
+            {
+              activity: "Trabalho",
+              id: 2,
+              start: 13,
+              end: 17,
+              valid: true
+            },
+            {
+              activity: "Tarefas Domésticas",
+              id: 10,
+              start: 17,
+              end: 19,
+              valid: true
+            },
+            {
+              activity: "Comer",
+              id: 3,
+              start: 19,
+              end: 20,
+              valid: true
+            },
+            {
+              activity: "Lazer com Cônjuge e Filho",
+              id: 6,
+              start: 20,
+              end: 24,
+              valid: true
+            },],[{
+              activity: "Dormir",
+              id: 1,
+              start: 0,
+              end: 7,
+              valid: true
+            },{
+              activity: "Comer",
+              id: 3,
+              start: 7,
+              end: 8,
+              valid: true
+            },{
+              activity: "Trabalho",
+              id: 2,
+              start: 8,
+              end: 12,
+              valid: true
+            },{
+              activity: "Comer",
+              id: 3,
+              start: 12,
+              end: 13,
+              valid: true
+            },
+            {
+              activity: "Trabalho",
+              id: 2,
+              start: 13,
+              end: 18,
+              valid: true
+            },
+            {
+              activity: "Happy Hour",
+              id: 11,
+              start: 18,
+              end: 24,
+              valid: true
+            }],[{
+              activity: "Dormir",
+              id: 1,
+              start: 0,
+              end: 7,
+              valid: true
+            },{
+              activity: "Comer",
+              id: 3,
+              start: 7,
+              end: 8,
+              valid: true
+            },{
+              activity: "Trabalho",
+              id: 2,
+              start: 8,
+              end: 12,
+              valid: true
+            },{
+              activity: "Comer",
+              id: 3,
+              start: 12,
+              end: 13,
+              valid: true
+            },
+            {
+              activity: "Trabalho",
+              id: 2,
+              start: 13,
+              end: 18,
+              valid: true
+            },
+            {
+              activity: "Hora Extra",
+              id: 2,
+              start: 18,
+              end: 20,
+              valid: true
+            },
+            {
+              activity: "Cuidados Pessoais",
+              id: 15,
+              start: 20,
+              end: 21,
+              valid: true
+            },
+            {
+              activity: "Lazer com Cônjuge e Filho",
+                id: 6,
+                start: 21,
+                end: 24,
+                valid: true
+            }],[{
+              activity: "Dormir",
+              id: 1,
+              start: 0,
+              end: 7,
+              valid: true
+            },{
+              activity: "Comer",
+              id: 3,
+              start: 7,
+              end: 8,
+              valid: true
+            },{
+              activity: "Trabalho",
+              id: 2,
+              start: 8,
+              end: 12,
+              valid: true
+            },{
+              activity: "Comer",
+              id: 3,
+              start: 12,
+              end: 13,
+              valid: true
+            },
+            {
+              activity: "Trabalho",
+              id: 2,
+              start: 13,
+              end: 18,
+              valid: true
+            },
+            {
+              activity: "Lazer amigos",
+              id: 8,
+              start: 18,
+              end: 21,
+              valid: true
+            },
+            {
+              activity: "Comer",
+              id: 3,
+              start: 21,
+              end: 22,
+              valid: true
+            },
+            {
+              activity: "Lazer com Cônjuge e Filho",
+              id: 6,
+              start: 22,
+              end: 23,
+              valid: true
+            },
+            {
+              activity: "Lazer com Cônjuge",
+              id: 5,
+              start: 23,
+              end: 24,
+              valid: true
+            }],[{
+              activity: "Dormir",
+              id: 1,
+              start: 0,
+              end: 11,
+              valid: true
+            },{
+              activity: "Cuidados Pessoais",
+              id: 15,
+              start: 11,
+              end: 12,
+              valid: true
+            },{
+              activity: "Comer",
+              id: 3,
+              start: 12,
+              end: 14,
+              valid: true
+            },{
+              activity: "Dormir",
+              id: 1,
+              start: 14,
+              end: 17,
+              valid: true
+            },
+            {
+              activity: "Lazer com filho",
+              id: 4,
+              start: 17,
+              end: 19,
+              valid: true
+            },
+            {
+              activity: "Comer",
+                id: 3,
+                start: 19,
+                end: 20,
+                valid: true
+            },
+            {
+              activity: "Momento com a família de origem do cônjuge",
+              id: 13,
+              start: 20,
+              end: 24,
+              valid: true
+            }],[{
+              activity: "Dormir",
+              id: 1,
+              start: 0,
+              end: 11,
+              valid: true
+            },{
+              activity: "Momento com a família de origem",
+              id: 12,
+              start: 11,
+              end: 13,
+              valid: true
+            },{
+              activity: "Comer",
+              id: 3,
+              start: 13,
+              end: 14,
+              valid: true
+            },{
+              activity: "Dormir",
+              id: 1,
+              start: 14,
+              end: 17,
+              valid: true
+            },
+            {
+              activity: "Lazer sozinho",
+              id: 7,
+              start: 17,
+              end: 19,
+              valid: true
+            },
+            {
+              activity: "Comer",
+              id: 3,
+              start: 19,
+              end: 20,
+              valid: true
+            },
+            {
+              activity: "Lazer com cônjuge e filho",
+              id: 6,
+              start: 20,
+              end: 23,
+              valid: true
+            },{
+              activity: "Lazer com cônjuge",
+              id: 5,
+              start: 23,
+              end: 24,
+              valid: true
+            }]
+            ]
+            //Ufa
+    },
+
+    manoWeek(){
+      if(confirm("Criar semana da Mano?")){
+        this.activities = [[{ //SEGUNDA
+              activity: "Dormir",
+              id: 1,
+              start: 0,
+              end: 7,
+              valid: true
+            },{
+              activity: "Cuidados Pessoais",
+              id: 15,
+              start: 7,
+              end: 8,
+              valid: true
+            },{
+              activity: "Comer",
+              id: 3,
+              start: 8,
+              end: 9,
+              valid: true
+            },{
+              activity: "Deslocamento trabalho",
+              id:16,
+              start:9,
+              end: 10,
+              valid: true
+            },{
+              activity: "Trabalho",
+              id: 2,
+              start: 10,
+              end: 13,
+              valid: true
+            },
+            {
+              activity: "Comer",
+              id: 3,
+              start: 13,
+              end: 14,
+              valid: true
+            },
+            {
+              activity: "Trabalho",
+              id: 2,
+              start: 14,
+              end: 20,
+              valid: true
+            },
+            {
+              activity: "Deslocamento Trabalho",
+              id: 16,
+              start: 20,
+              end: 21,
+              valid: true
+            },
+            {
+              activity: "Comer",
+              id: 3,
+              start: 21,
+              end: 22,
+              valid: true
+            },
+            {
+              activity:"Lazer com Cônjuge",
+              id: 5,
+              start: 22,
+              end: 24,
+              valid: true
+            }],[{ //TERÇA
+              activity: "Dormir",
+              id: 1,
+              start: 0,
+              end: 7,
+              valid: true
+            },{
+              activity: "Cuidados Pessoais",
+              id: 15,
+              start: 7,
+              end: 8,
+              valid: true
+            },{
+              activity: "Comer",
+              id: 3,
+              start: 8,
+              end: 9,
+              valid: true
+            },{
+              activity: "Deslocamento trabalho",
+              id:16,
+              start:9,
+              end: 10,
+              valid: true
+            },{
+              activity: "Trabalho",
+              id: 2,
+              start: 10,
+              end: 13,
+              valid: true
+            },
+            {
+              activity: "Comer",
+              id: 3,
+              start: 13,
+              end: 14,
+              valid: true
+            },
+            {
+              activity: "Trabalho",
+              id: 2,
+              start: 14,
+              end: 21,
+              valid: true
+            },
+            {
+              activity: "Deslocamento Trabalho",
+              id: 16,
+              start: 21,
+              end: 22,
+              valid: true
+            },
+            {
+              activity: "Comer",
+              id: 3,
+              start: 22,
+              end: 23,
+              valid: true
+            },
+            {
+              activity:"Lazer sozinho",
+              id: 7,
+              start: 23,
+              end: 24,
+              valid: true
+            }],[ //QUARTA
+            {
+              activity: "Dormir",
+              id: 1,
+              start: 0,
+              end: 7,
+              valid: true
+            },{
+              activity: "Cuidados Pessoais",
+              id: 15,
+              start: 7,
+              end: 8,
+              valid: true
+            },{
+              activity: "Comer",
+              id: 3,
+              start: 8,
+              end: 9,
+              valid: true
+            },{
+              activity: "Deslocamento trabalho",
+              id:16,
+              start:9,
+              end: 10,
+              valid: true
+            },{
+              activity: "Trabalho",
+              id: 2,
+              start: 10,
+              end: 13,
+              valid: true
+            },
+            {
+              activity: "Comer",
+              id: 3,
+              start: 13,
+              end: 14,
+              valid: true
+            },
+            {
+              activity: "Trabalho",
+              id: 2,
+              start: 14,
+              end: 20,
+              valid: true
+            },
+            {
+              activity: "Deslocamento Trabalho",
+              id: 16,
+              start: 20,
+              end: 21,
+              valid: true
+            },
+            {
+              activity: "Comer",
+              id: 3,
+              start: 21,
+              end: 22,
+              valid: true
+            },
+            {
+              activity:"Lazer sozinho",
+              id: 7,
+              start: 22,
+              end: 23,
+              valid: true
+            },
+            {
+              activity: "Trabalho",
+              id: 2,
+              start: 23,
+              end: 24,
+              valid: true
+            }],[{ //QUINTA
+            activity: "Dormir",
+              id: 1,
+              start: 0,
+              end: 7,
+              valid: true
+            },{
+              activity: "Cuidados Pessoais",
+              id: 15,
+              start: 7,
+              end: 8,
+              valid: true
+            },{
+              activity: "Comer",
+              id: 3,
+              start: 8,
+              end: 9,
+              valid: true
+            },{
+              activity: "Deslocamento trabalho",
+              id:16,
+              start:9,
+              end: 10,
+              valid: true
+            },{
+              activity: "Trabalho",
+              id: 2,
+              start: 10,
+              end: 13,
+              valid: true
+            },
+            {
+              activity: "Comer",
+              id: 3,
+              start: 13,
+              end: 14,
+              valid: true
+            },
+            {
+              activity: "Trabalho",
+              id: 2,
+              start: 14,
+              end: 22,
+              valid: true
+            },
+            {
+              activity: "Deslocamento Trabalho",
+              id: 16,
+              start: 22,
+              end: 23,
+              valid: true
+            },
+            {
+              activity: "Comer",
+              id: 3,
+              start: 23,
+              end: 24,
+              valid: true
+            }],[{ //SEXTA
+            activity: "Dormir",
+              id: 1,
+              start: 0,
+              end: 7,
+              valid: true
+            },{
+              activity: "Cuidados Pessoais",
+              id: 15,
+              start: 7,
+              end: 8,
+              valid: true
+            },{
+              activity: "Comer",
+              id: 3,
+              start: 8,
+              end: 9,
+              valid: true
+            },{
+              activity: "Deslocamento trabalho",
+              id:16,
+              start:9,
+              end: 10,
+              valid: true
+            },{
+              activity: "Trabalho",
+              id: 2,
+              start: 10,
+              end: 13,
+              valid: true
+            },
+            {
+              activity: "Comer",
+              id: 3,
+              start: 13,
+              end: 14,
+              valid: true
+            },
+            {
+              activity: "Trabalho",
+              id: 2,
+              start: 14,
+              end: 19,
+              valid: true
+            },
+            {
+              activity: "Deslocamento Trabalho",
+              id: 16,
+              start: 19,
+              end: 20,
+              valid: true
+            },
+            {
+              activity: "Comer",
+              id: 3,
+              start: 20,
+              end: 21,
+              valid: true
+            },
+            {
+              activity:"Lazer com Cônjuge",
+              id: 5,
+              start: 21,
+              end: 24,
+              valid: true
+            }],[{ //SABADO
+            activity: "Dormir",
+              id: 1,
+              start: 0,
+              end: 7,
+              valid: true
+            },{
+              activity: "Cuidados Pessoais",
+              id: 15,
+              start: 7,
+              end: 9,
+              valid: true
+            },{
+              activity: "Comer",
+              id: 3,
+              start: 9,
+              end: 10,
+              valid: true
+            },{
+              activity: "Lazer com Cônjuge",
+              id:5,
+              start:10,
+              end: 12,
+              valid: true
+            },{
+              activity: "Comer",
+              id: 3,
+              start: 12,
+              end: 14,
+              valid: true
+            },
+            {
+              activity: "Lazer sozinho",
+              id: 7,
+              start: 14,
+              end: 16,
+              valid: true
+            },
+            {
+              activity: "Lazer com amigos",
+              id: 8,
+              start: 16,
+              end: 20,
+              valid: true
+            },
+            {
+              activity: "Comer",
+              id: 3,
+              start: 20,
+              end: 21,
+              valid: true
+            },
+            {
+              activity:"Lazer com Cônjuge",
+              id: 5,
+              start: 21,
+              end: 24,
+              valid: true
+            }],[{//DOMINGO
+            activity: "Dormir",
+              id: 1,
+              start: 0,
+              end: 9,
+              valid: true
+            },{
+              activity: "Comer",
+              id: 3,
+              start: 9,
+              end: 10,
+              valid: true
+            },{
+              activity: "Lazer com Cônjuge",
+              id:5,
+              start:10,
+              end: 13,
+              valid: true
+            },
+            {
+              activity: "Comer",
+              id: 3,
+              start: 13,
+              end: 15,
+              valid: true
+            },
+            {
+              activity: "Trabalho",
+              id: 2,
+              start: 15,
+              end: 18,
+              valid: true
+            },
+            {
+              activity: "Lazer com Cônjuge",
+              id: 5,
+              start: 18,
+              end: 21,
+              valid: true
+            },
+            {
+              activity: "Comer",
+              id: 3,
+              start: 21,
+              end: 22,
+              valid: true
+            },
+            {
+              activity:"Cuidados Pessoais",
+              id: 15,
+              start: 22,
+              end: 23,
+              valid: true
+            },{
+              activity:"Tarefas Domésticas",
+              id: 10,
+              start: 23,
+              end: 24,
+              valid: true
+            }]
+          ]
+        for(let i = 0; i < 7; i++){
+          this.validDay[i] = true
+        }
+        this.validWeek = true
+      }
+    },
+
+    listActivitiesLog(){
+      let parsedActivities = JSON.stringify(this.activities)
+      console.log(parsedActivities)
+    }
+    
   }
 }
 </script>

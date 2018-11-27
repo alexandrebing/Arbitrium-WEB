@@ -4,7 +4,7 @@
         <p class="destaque">atividades que pontuam por dia: uma mesma atividade em dias diferentes se repete na lista abaixo</p>
         <table>
             <tr>
-                <th>atividade</th><th>horas em um mesmo dia</th><th>ptos familia</th><th>ptos trabalho</th><th>ptos dinheiro</th><th>ptos saude</th>
+                <th>atividade</th><th>horas em um mesmo dia</th><th>pontos familia</th><th>pontos trabalho</th><th>pontos dinheiro</th><th>pontos saude</th>
             </tr>
             <tr v-for="ln in linhas.length" :key="ln + 'dia'">
                 <th>{{linhas[ln-1].atividade}}</th>
@@ -18,7 +18,7 @@
         <p class="destaque">atividades que pontuam por hora por hora ou semana: as atividades não se repetem e é computado o valor total</p>
         <table>
             <tr>
-                <th>atividade</th><th>total de horas em todas as semanas</th><th>ptos familia</th><th>ptos trabalho</th><th>ptos dinheiro</th><th>ptos saude</th>
+                <th>atividade</th><th>total de horas em todas as semanas</th><th>pontos familia</th><th>pontos trabalho</th><th>pontos dinheiro</th><th>pontos saude</th>
             </tr>
             <tr v-for="ln in linhasSemana.length" :key="ln  + 'semana'">
                 <th>{{linhasSemana[ln-1].atividade}}</th>
