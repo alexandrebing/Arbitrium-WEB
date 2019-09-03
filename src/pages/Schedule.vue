@@ -81,47 +81,54 @@ export default {
                 id: 0,
                 start: 0,
                 end: 1,
-                valid: true
+                valid: true,
+                selected: false
             }],[{
                 activity: "Atividade",
                 id: 0,
                 start: 0,
                 end: 1,
-                valid: true
+                valid: true,
+                selected: false
             }],[{
                 activity: "Atividade",
                 id: 0,
                 start: 0,
                 end: 1,
-                valid: true
+                valid: true,
+                selected: false
             }],
             [{
                 activity: "Atividade",
                 id: 0,
                 start: 0,
                 end: 1,
-                valid: true
+                valid: true,
+                selected: false
             }],
             [{
                 activity: "Atividade",
                 id: 0,
                 start: 0,
                 end: 1,
-                valid: true
+                valid: true,
+                selected: false
             }],
             [{
                 activity: "Atividade",
                 id: 0,
                 start: 0,
                 end: 1,
-                valid: true
+                valid: true,
+                selected: false
             }],
             [{
                 activity: "Atividade",
                 id: 0,
                 start: 0,
                 end: 1,
-                valid: true
+                valid: true,
+                selected: false
             }]
             ],
 
@@ -163,7 +170,8 @@ export default {
         start: data.newActivityStart,
         end: data.newActivityEnd,
         id: data.newActivityId,
-        valid: true
+        valid: true,
+        selected: true
       })
     },
 

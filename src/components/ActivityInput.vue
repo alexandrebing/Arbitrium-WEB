@@ -90,10 +90,15 @@ export default {
     },
 
     isValid(){
-      if (this.inputValues.valid){
-        return "";
+      if (!this.inputValues.valid){
+        return "danger";
       }
-      return "danger";
+
+      if (!this.inputValues.selected){
+        return "warning"
+      }
+
+      return "";
     }
     
   },
@@ -191,6 +196,10 @@ export default {
 
 .danger{
   background-color: rgba(255, 0, 0, 0.308);
+}
+
+.warning{
+  background-color: rgba(255, 252, 67, 0.452);
 }
 
 .padding{

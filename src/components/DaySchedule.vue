@@ -158,9 +158,13 @@ export default {
       let currentActivity = this.activities[index];
       let nextActivity = this.activities[index + 1];
       let previousActivity = this.activities[index - 1];
-      if(currentActivity.id === 0){
-        return;
+
+      if(!this.checkActivitySelected(currentActivity)){
+        currentActivity.selected = false;
+      } else{
+        currentActivity.selected = true;
       }
+
       //verify with previous activity
       if(previousActivity){
         if(currentActivity.start != previousActivity.end){
@@ -169,6 +173,7 @@ export default {
           previousActivity.valid = true;
         }
       }
+
       //verify with next activity
       if(nextActivity){
         if (currentActivity.end != nextActivity.start){
@@ -180,11 +185,15 @@ export default {
       this.checkDayCompletition();
     },
 
+    checkActivitySelected(activity){
+      return activity.activity != "Atividade";
+    },
+
     checkDayCompletition(){
       let lastActivityIndex = this.activities.length - 1;
       if (this.activities[0].start == 0 && this.activities[lastActivityIndex].end == 24){
         for (let i = 0; i < lastActivityIndex; i++){
-          if (!this.activities[i].valid){
+          if (!this.activities[i].valid || !this.activities[i].selected){
             this.allChecked = false;
             this.$emit("invalidDay", this.dayIndex);
             return;
