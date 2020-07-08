@@ -13,7 +13,7 @@ Vue.use(Router)
 if (process.env.API_SERVER)
   var apiServer = process.env.API_SERVER
 else
-  var apiServer = 'localhost'
+  var apiServer = 'https://aqueous-brushlands-76849.herokuapp.com'
 
 export default new Router({
   mode: 'history',
@@ -62,7 +62,7 @@ export default new Router({
          reference: https://router.vuejs.org/guide/advanced/navigation-guards.html#per-route-guard
       */
       beforeEnter() {
-        window.location = 'http://' + apiServer + ':3000'+'/report'
+        window.location = apiServer +'/report'
       }
     },
   ]
