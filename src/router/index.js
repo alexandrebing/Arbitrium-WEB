@@ -17,6 +17,7 @@ else
 
 export default new Router({
   mode: 'history',
+  base: 'arbitrium',
   routes: [
     {
       path: '/',

@@ -1,5 +1,8 @@
 <template>
-    <div class="container"><a href="/resultado">Voltar para os resultados</a>
+    <div class="container">
+        <router-link to="/resultado">
+            <button>voltar para tela de resultados</button>
+        </router-link>
         <h1>Entendendo o cálculo dos resultados</h1>
         <p class="destaque">atividades que pontuam por dia: uma mesma atividade em dias diferentes se repete na lista abaixo</p>
         <table>

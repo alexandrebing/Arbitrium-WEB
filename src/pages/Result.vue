@@ -10,7 +10,9 @@
     </div>
     <div class="container">
       <p style="font-size: 90px;">Fim da Semana {{weekCounter}}</p>
-      <a href="/calculo_resultado">informação sobre o cálculo dos resultados</a>
+      <router-link to="/calculo_resultado">
+        <button>informação sobre o cálculo dos resultados</button>
+      </router-link>
       <p style="font-size: 20px;">Seu resultado foi:</p>
     </div>
     <div id="boxResults">

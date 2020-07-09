@@ -23,7 +23,7 @@
     <div class="row align-items-center mt-5 mb-1">
       <ShowEvent v-if="activeEvent" :event="currentEvent" @componentClick="hideEvent()"></ShowEvent>
       <div class="centralized-div">
-        <img src="../assets/loading-gif.gif" alt="time">
+
       </div>
       <!-- CONTINUE BUTTON -->
       <div class="quit-div" v-if="closeWeek">
